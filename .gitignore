@@ -1,0 +1,43 @@
+# virtual env
+venv/
+env/
+
+# bytecode files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# env variables
+.env
+.env.*
+
+# db files
+*.db
+*.sqlite3
+
+# log files
+*.log
+
+# flask cache
+instance/
+.cache
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+

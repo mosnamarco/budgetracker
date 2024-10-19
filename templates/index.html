@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budgetracker</title>
+
+  <style>
+    body {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      width: screen;
+      height: screen;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    table {
+      width: 100%;
+      margin-inline: auto;
+    }
+
+    #budget-section,
+    #budget-section>form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    fieldset {
+      text-align: center;
+    }
+
+    #budget-section>form>* {
+      width: 100%;
+    }
+  </style>
+
+</head>
+
+<body>
+  <main>
+    <h1>Budget Tracker</h1>
+
+    <section id="budget-section">
+      <h2>Budget Form</h2>
+      <!-- TODO: Make not refresh/redirect after submit -->
+      <form onsubmit="submitRequest(event)">
+        <fieldset>
+          <legend>Amount</legend>
+          <input id="amount" placeholder="Amount in PHP (i.e, 500.0)" type="number" name="amount" min=0 required />
+        </fieldset>
+
+        <fieldset>
+          <legend>Sender/Reciever</legend>
+          <input id="sender" placeholder="Mr. Mike..." type="text" name="sender" required />
+        </fieldset>
+
+        <fieldset>
+          <legend>Type of transaction</legend>
+          <input checked id="credit" type="radio" value="credit" name="creditDebit" /> <label
+            for="credit">Credit</label>
+          <input id="debit" type="radio" value="debit" name="creditDebit" /> <label for="debit">Debit</label>
+        </fieldset>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Credit-Debit Table</h2>
+
+      <table id="CreditDebitTable">
+        <tr>
+          <th style="background-color:green;color:white;font-weight: bold;">Type</th>
+          <th style="background-color:burlywood;color:white;font-weight: bold;">Amount</th>
+          <th style="background-color:blue;color:white;font-weight: bold;">From</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+          {% if item[0] == "credit" %}
+          <td style="color:green;font-weight: bold;">{{item[0]}}</td>
+          <td style="color:green;font-weight: bold;">-{{item[1]}}</td>
+          {% else %}
+          <td style="color:red;font-weight: bold;">{{item[0]}}</td>
+          <td style="color:red;font-weight: bold;">-{{item[1]}}</td>
+          {% endif %}
+
+          <td style="color:blue;font-weight: bold;">{{item[2]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </section>
+
+  </main>
+
+  <script defer>
+    async function submitRequest(event) {
+      event.preventDefault()
+
+      try {
+        let type = event.target.creditDebit.value
+        let amount = event.target.amount.value
+        let sender = event.target.sender.value
+
+        const request = await fetch(`http://127.0.0.1:5000/budget_submit?type=${type}&amount=${amount}&sender=${sender}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then(() => {
+          location.reload()
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  </script>
+</body>
+
+</html>
