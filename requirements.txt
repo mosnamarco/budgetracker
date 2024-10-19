@@ -1,0 +1,16 @@
+astroid==3.3.5
+autopep8==2.3.1
+blinker==1.8.2
+click==8.1.7
+dill==0.3.9
+Flask==3.0.3
+isort==5.13.2
+itsdangerous==2.2.0
+Jinja2==3.1.4
+MarkupSafe==3.0.1
+mccabe==0.7.0
+platformdirs==4.3.6
+pycodestyle==2.12.1
+pylint==3.3.1
+tomlkit==0.13.2
+Werkzeug==3.0.4
